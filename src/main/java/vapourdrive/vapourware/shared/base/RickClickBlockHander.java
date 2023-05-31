@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.base;
+package vapourdrive.vapourware.shared.base;
 
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;

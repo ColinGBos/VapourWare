@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.base.slots;
+package vapourdrive.vapourware.shared.base.slots;
 
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;

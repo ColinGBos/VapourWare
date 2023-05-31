@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.base;
+package vapourdrive.vapourware.shared.base;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import vapourdrive.vapourware.VapourWare;
-import vapourdrive.vapourware.api.base.slots.AbstractMachineSlot;
+import vapourdrive.vapourware.shared.base.slots.AbstractMachineSlot;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

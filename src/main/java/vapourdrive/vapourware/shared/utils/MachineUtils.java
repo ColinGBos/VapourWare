@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.utils;
+package vapourdrive.vapourware.shared.utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import vapourdrive.vapourware.VapourWare;
-import vapourdrive.vapourware.api.base.IFuelUser;
+import vapourdrive.vapourware.shared.base.IFuelUser;
 
 import java.util.ArrayList;
 import java.util.Collections;

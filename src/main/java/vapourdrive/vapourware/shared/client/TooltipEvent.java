@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.client;
+package vapourdrive.vapourware.shared.client;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;

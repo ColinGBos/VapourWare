@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.base;
+package vapourdrive.vapourware.shared.base;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
-import vapourdrive.vapourware.api.utils.MachineUtils;
+import vapourdrive.vapourware.shared.utils.MachineUtils;
 
 import java.util.Objects;
 

@@ -9,7 +9,7 @@ import vapourdrive.vapourware.VapourWare;
 @Mod.EventBusSubscriber(modid = VapourWare.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModSetup {
 
-    public static final CreativeModeTab ITEM_GROUP = new CreativeModeTab("vapourware") {
+    public static final CreativeModeTab VAPOUR_GROUP = new CreativeModeTab("vapourware") {
         @Override
         public @NotNull ItemStack makeIcon() {
             return new ItemStack(Registration.FARMER_WRENCH.get());

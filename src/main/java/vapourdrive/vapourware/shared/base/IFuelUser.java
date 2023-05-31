@@ -1,8 +1,8 @@
-package vapourdrive.vapourware.api.base;
+package vapourdrive.vapourware.shared.base;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import vapourdrive.vapourware.api.utils.MachineUtils;
+import vapourdrive.vapourware.shared.utils.MachineUtils;
 
 public interface IFuelUser {
     void tickServer(BlockState state);

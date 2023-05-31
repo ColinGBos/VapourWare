@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.base.slots;
+package vapourdrive.vapourware.shared.base.slots;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;

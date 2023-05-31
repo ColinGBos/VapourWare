@@ -16,16 +16,16 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import vapourdrive.vapourware.VapourWare;
-import vapourdrive.vapourware.api.base.AbstractBaseMachineBlock;
+import vapourdrive.vapourware.shared.base.AbstractBaseMachineBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public class FarmerWrench extends Item {
+public class HandymanWrench extends Item {
     public static final TagKey<Item> wrench = ItemTags.create(new ResourceLocation("forge", "tools/wrench"));
 
-    public FarmerWrench(Item.Properties pProperties) {
+    public HandymanWrench(Item.Properties pProperties) {
         super(pProperties.stacksTo(1));
     }
 

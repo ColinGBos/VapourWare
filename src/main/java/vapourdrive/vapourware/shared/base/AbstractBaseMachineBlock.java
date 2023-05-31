@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.base;
+package vapourdrive.vapourware.shared.base;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,7 +24,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import vapourdrive.vapourware.VapourWare;
-import vapourdrive.vapourware.content.FarmerWrench;
+import vapourdrive.vapourware.content.HandymanWrench;
 
 import static net.minecraft.world.Containers.dropItemStack;
 
@@ -46,7 +46,7 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
     @Override
     @SuppressWarnings("deprecation")
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult trace) {
-        if (player.getItemInHand(hand).is(FarmerWrench.wrench)) {
+        if (player.getItemInHand(hand).is(HandymanWrench.wrench)) {
             return InteractionResult.PASS;
         } else if (!level.isClientSide) {
             openContainer(level, pos, player);
@@ -61,12 +61,12 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
     @Override
     @SuppressWarnings("deprecation")
     public void attack(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player) {
-        if (player.getMainHandItem().is(FarmerWrench.wrench)) {
+        if (player.getMainHandItem().is(HandymanWrench.wrench)) {
             disassemble(state, level, pos);
         }
     }
 
-    protected boolean sneakWrenchMachine(Player player, Level level, BlockPos pos) {
+    public boolean sneakWrenchMachine(Player player, Level level, BlockPos pos) {
         return false;
     }
 

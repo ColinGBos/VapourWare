@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.integrations.jade;
+package vapourdrive.vapourware.shared.integrations.jade;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +13,7 @@ import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import vapourdrive.vapourware.VapourWare;
-import vapourdrive.vapourware.api.base.IFuelUser;
+import vapourdrive.vapourware.shared.base.IFuelUser;
 
 import java.text.DecimalFormat;
 

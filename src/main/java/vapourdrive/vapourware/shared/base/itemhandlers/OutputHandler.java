@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.base.itemhandlers;
+package vapourdrive.vapourware.shared.base.itemhandlers;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;

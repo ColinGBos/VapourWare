@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.integrations.jade;
+package vapourdrive.vapourware.shared.integrations.jade;
 
 import net.minecraft.resources.ResourceLocation;
 import snownee.jade.api.IWailaClientRegistration;
@@ -6,8 +6,8 @@ import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;
 import vapourdrive.vapourware.VapourWare;
-import vapourdrive.vapourware.api.base.AbstractBaseFuelUserTile;
-import vapourdrive.vapourware.api.base.AbstractBaseMachineBlock;
+import vapourdrive.vapourware.shared.base.AbstractBaseFuelUserTile;
+import vapourdrive.vapourware.shared.base.AbstractBaseMachineBlock;
 
 @WailaPlugin
 public class JadePlugin implements IWailaPlugin {

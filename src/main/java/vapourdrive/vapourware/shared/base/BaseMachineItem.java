@@ -1,4 +1,4 @@
-package vapourdrive.vapourware.api.base;
+package vapourdrive.vapourware.shared.base;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;

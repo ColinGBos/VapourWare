@@ -1,11 +1,11 @@
-package vapourdrive.vapourware.api.base.itemhandlers;
+package vapourdrive.vapourware.shared.base.itemhandlers;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.items.ItemStackHandler;
-import vapourdrive.vapourware.api.base.AbstractBaseFuelUserTile;
+import vapourdrive.vapourware.shared.base.AbstractBaseFuelUserTile;
 
 import javax.annotation.Nonnull;
 
