@@ -15,11 +15,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class MachineUtils {
+    @SuppressWarnings("unused")
     public enum Area {
         FUEL,
         OUTPUT,
-        INGREDIENT,
-        INGREDIENT_2
+        INGREDIENT_1,
+        INGREDIENT_2,
+        INGREDIENT_3,
+        AUGMENT,
+        TOOL,
+        STORAGE
     }
 
 
@@ -33,6 +38,7 @@ public class MachineUtils {
         }
     }
 
+    @SuppressWarnings("unused")
     public static List<ItemStack> cleanItemStacks(Iterable<? extends ItemStack> stacks) {
         List<ItemStack> ret = new ArrayList<>();
         for (ItemStack stack : stacks) {
@@ -57,6 +63,7 @@ public class MachineUtils {
         return ret;
     }
 
+    @SuppressWarnings("unused")
     public static int getTotalCount(Iterable<? extends ItemStack> stacks) {
         int count = 0;
         for (ItemStack stack : stacks) {
@@ -65,6 +72,7 @@ public class MachineUtils {
         return count;
     }
 
+    @SuppressWarnings("unused")
     public static void playSound(Level world, BlockPos pos, RandomSource rand, SoundEvent sound, float pitch) {
         playSound(world, pos, rand, sound, pitch, 1f);
     }

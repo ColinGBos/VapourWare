@@ -23,6 +23,7 @@ public abstract class AbstractBaseFuelUserTile extends BlockEntity implements IF
     private ItemStack currentFuelStack = ItemStack.EMPTY;
     private int currentBurn = 0;
 
+    @SuppressWarnings("unused")
     public final int[] FUEL_SLOT = {0};
 
     public final int[] OUTPUT_SLOTS;
@@ -44,6 +45,7 @@ public abstract class AbstractBaseFuelUserTile extends BlockEntity implements IF
         super.load(tag);
         increment = tag.getInt("increment");
         toAdd = tag.getInt("toAdd");
+        addFuel(tag.getInt("fuel"), false);
     }
 
     @Override
@@ -51,6 +53,7 @@ public abstract class AbstractBaseFuelUserTile extends BlockEntity implements IF
         super.saveAdditional(tag);
         tag.putInt("increment", increment);
         tag.putInt("toAdd", toAdd);
+        tag.putInt("fuel", getCurrentFuel());
     }
 
     @Override
