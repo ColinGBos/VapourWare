@@ -13,6 +13,10 @@ public interface IFuelUser {
 
     int getCurrentFuel();
 
+    double getSpeedMultiplier();
+
+    double getEfficiencyMultiplier();
+
     int getCurrentBurn();
 
     void setCurrentBurn(int burn);

@@ -28,13 +28,13 @@ public class MachineUtils {
     }
 
 
-    public static int getBurnDuration(ItemStack stack) {
+    public static int getBurnDuration(ItemStack stack, IFuelUser machine) {
         if (stack.isEmpty()) {
             return 0;
         } else {
             //everything is multiplied by 100 for variable increments instead of 1 per tick
             //i.e. 100% efficiency is 100 consumption per tick, 125% is 80 consumption etc
-            return net.minecraftforge.common.ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) * 100;
+            return (int)(net.minecraftforge.common.ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) * 100 * machine.getEfficiencyMultiplier());
         }
     }
 
@@ -103,7 +103,7 @@ public class MachineUtils {
         if (!fuel.isEmpty()) {
             if (user.getCurrentFuelStack().isEmpty() || !ItemStack.isSame(user.getCurrentFuelStack(), fuel)) {
                 user.setCurrentFuelStack(fuel.copy());
-                user.setCurrentBurn(getBurnDuration(fuel));
+                user.setCurrentBurn(getBurnDuration(fuel, user));
             }
             if (user.getCurrentFuel() + user.getCurrentBurn() <= user.getMaxFuel() || user.getCurrentFuel() < user.getMinFuelToWork()) {
                 VapourWare.debugLog("Fuel: " + user.getCurrentFuel() + " current burn: " + user.getCurrentBurn());
@@ -119,7 +119,7 @@ public class MachineUtils {
                 user.removeFromSlot(Area.FUEL, 0, 1, false);
                 if (!ItemStack.isSame(user.getCurrentFuelStack(), fuel)) {
                     user.setCurrentFuelStack(ItemStack.EMPTY);
-                    user.setCurrentBurn(getBurnDuration(fuel));
+                    user.setCurrentBurn(getBurnDuration(fuel, user));
                 }
                 VapourWare.debugLog("CurrentBurn: " + user.getCurrentBurn());
                 return user.getCurrentBurn();

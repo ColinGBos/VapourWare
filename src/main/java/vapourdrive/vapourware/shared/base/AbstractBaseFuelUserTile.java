@@ -89,6 +89,16 @@ public abstract class AbstractBaseFuelUserTile extends BlockEntity implements IF
     }
 
     @Override
+    public double getSpeedMultiplier(){
+        return 1.0;
+    }
+
+    @Override
+    public double getEfficiencyMultiplier(){
+        return 1.0;
+    }
+
+    @Override
     public int getCurrentFuel() {
         return 0;
     }
