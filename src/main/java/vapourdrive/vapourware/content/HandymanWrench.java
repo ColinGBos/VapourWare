@@ -1,32 +1,26 @@
 package vapourdrive.vapourware.content;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import vapourdrive.vapourware.VapourWare;
 import vapourdrive.vapourware.shared.base.AbstractBaseMachineBlock;
+import vapourdrive.vapourware.shared.base.BaseInfoItem;
+import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
-import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Objects;
 
-public class HandymanWrench extends Item {
+public class HandymanWrench extends BaseInfoItem {
     public static final TagKey<Item> wrench = ItemTags.create(new ResourceLocation("forge", "tools/wrench"));
 
     public HandymanWrench(Item.Properties pProperties) {
-        super(pProperties.stacksTo(1));
+        super(pProperties.stacksTo(1), new DeferredComponent("wrench.info"));
     }
 
     @Override
@@ -44,10 +38,5 @@ public class HandymanWrench extends Item {
 
         ctx.getLevel().setBlockAndUpdate(pos, state.rotate(ctx.getLevel(), pos, Rotation.CLOCKWISE_90));
         return InteractionResult.SUCCESS;
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable(VapourWare.MODID+ ".wrench.info").withStyle(ChatFormatting.GRAY));
     }
 }

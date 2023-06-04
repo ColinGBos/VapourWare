@@ -2,7 +2,6 @@ package vapourdrive.vapourware.shared.integrations.jade;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -12,8 +11,8 @@ import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
-import vapourdrive.vapourware.VapourWare;
 import vapourdrive.vapourware.shared.base.IFuelUser;
+import vapourdrive.vapourware.shared.utils.CompUtils;
 
 import java.text.DecimalFormat;
 
@@ -25,7 +24,7 @@ public enum IFuelUserContentProvider implements IBlockComponentProvider, IServer
     public void appendTooltip(ITooltip tooltip, BlockAccessor blockAccessor, IPluginConfig pluginConfig) {
         if (blockAccessor.getServerData().contains("Fuel")) {
             int i = blockAccessor.getServerData().getInt("Fuel");
-            tooltip.add(Component.translatable(VapourWare.MODID+".fuel", df.format(i)).withStyle(ChatFormatting.GOLD));
+            tooltip.add(CompUtils.getArgComp("fuel", df.format(i)).withStyle(ChatFormatting.GOLD));
         }
     }
 

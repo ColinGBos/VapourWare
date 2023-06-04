@@ -2,7 +2,7 @@ package vapourdrive.vapourware.shared.base.slots;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
-import vapourdrive.vapourware.VapourWare;
+import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
 import javax.annotation.Nonnull;
 
@@ -11,13 +11,13 @@ public class BaseSlotIngredient extends AbstractMachineSlot {
     private final int index;
 
     public BaseSlotIngredient(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-        super(itemHandler, index, xPosition, yPosition, VapourWare.MODID+".ingredientslot");
+        super(itemHandler, index, xPosition, yPosition, new DeferredComponent("ingredientslot"));
         this.itemHandler = itemHandler;
         this.index = index;
     }
 
-    public BaseSlotIngredient(IItemHandler itemHandler, int index, int xPosition, int yPosition, String title) {
-        super(itemHandler, index, xPosition, yPosition, title);
+    public BaseSlotIngredient(IItemHandler itemHandler, int index, int xPosition, int yPosition, DeferredComponent comp) {
+        super(itemHandler, index, xPosition, yPosition, comp);
         this.itemHandler = itemHandler;
         this.index = index;
     }

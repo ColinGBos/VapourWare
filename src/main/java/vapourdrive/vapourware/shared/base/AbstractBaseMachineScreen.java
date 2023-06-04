@@ -5,12 +5,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
-import vapourdrive.vapourware.VapourWare;
 import vapourdrive.vapourware.shared.base.slots.AbstractMachineSlot;
+import vapourdrive.vapourware.shared.utils.CompUtils;
+import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -18,44 +20,33 @@ import java.util.List;
 
 public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> extends AbstractContainerScreen<T> {
     protected final AbstractBaseMachineContainer container;
-
     private final ResourceLocation GUI;
-
-    final int FUEL_XPOS;
-    final int FUEL_YPOS;
-    final int FUEL_ICONX = 176;   // texture position of flame icon [u,v]
-    final int FUEL_ICONY = 0;
-    int FUEL_HEIGHT = 46;
+    protected int FUEL_XPOS = 12;
+    protected int FUEL_YPOS;
+    protected int FUEL_ICONX = 176;   // texture position of flame icon [u,v]
+    protected int FUEL_ICONY = 0;
+    protected int FUEL_HEIGHT = 46;
     final int FUEL_WIDTH = 8;
-
-    final int INFO_XPOS;
-    final int INFO_YPOS;
+    protected int INFO_XPOS = 158;
+    protected int INFO_YPOS = 6;
     final int INFO_ICONX = 184;   // texture position of flame icon [u,v]
     final int INFO_ICONY = 0;
     final int INFO_HEIGHT = 12;
     final int INFO_WIDTH = 12;
-    final boolean STACK_INFO_SIDEWAYS;
-    protected final String ID;
-    protected final String modID;
-
+    protected final DeferredComponent comp;
+    protected final boolean STACK_INFO_SIDEWAYS;
     protected final DecimalFormat df = new DecimalFormat("#,###");
 
-    public AbstractBaseMachineScreen(T container, Inventory inv, Component name, String modId, String id, int fuelX, int fuelY, int helpX, int helpY, int titleX) {
+    public AbstractBaseMachineScreen(T container, Inventory inv, Component name, DeferredComponent compIn, boolean stackInfoSideways) {
         super(container, inv, name);
         this.container = container;
-        this.titleLabelX = titleX;
         this.titleLabelY = -10;
-        this.FUEL_XPOS = fuelX;
-        this.FUEL_YPOS = fuelY;
-        this.INFO_XPOS = helpX;
-        this.INFO_YPOS = helpY;
-        this.ID = id;
-        this.modID = modId;
         this.STACK_INFO_SIDEWAYS = false;
-        this.GUI = new ResourceLocation(modId, "textures/gui/" + id + "_gui.png");
+        this.comp = compIn;
+        this.GUI = new ResourceLocation(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
     }
 
-    public AbstractBaseMachineScreen(T container, Inventory inv, Component name, String modId, String id, int fuelX, int fuelY, int fuelH, int helpX, int helpY, int titleX, boolean stackInfoSideways) {
+    public AbstractBaseMachineScreen(T container, Inventory inv, Component name, DeferredComponent compIn,  int fuelX, int fuelY, int fuelH, int helpX, int helpY, int titleX, boolean stackInfoSideways) {
         super(container, inv, name);
         this.container = container;
         this.titleLabelX = titleX;
@@ -64,10 +55,9 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
         this.FUEL_YPOS = fuelY;
         this.INFO_XPOS = helpX;
         this.INFO_YPOS = helpY;
-        this.ID = id;
-        this.modID = modId;
         this.STACK_INFO_SIDEWAYS = stackInfoSideways;
-        this.GUI = new ResourceLocation(modId, "textures/gui/" + id + "_gui.png");
+        this.comp = compIn;
+        this.GUI = new ResourceLocation(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
         this.FUEL_HEIGHT = fuelH;
     }
 
@@ -87,7 +77,6 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
     protected boolean hasClickedOutside(double pMouseX, double pMouseY, int pGuiLeft, int pGuiTop, int pMouseButton) {
         return pMouseX < (double)pGuiLeft || pMouseY < (double)pGuiTop || pMouseX >= (double)(pGuiLeft + getXSize()) || pMouseY >= (double)(pGuiTop + getYSize());
     }
-
 
     @Override
     public void render(@NotNull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -132,9 +121,9 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
         List<Component> hoveringText = new ArrayList<>();
 
         if (this.hoveredSlot != null && !this.hoveredSlot.hasItem() && this.hoveredSlot instanceof AbstractMachineSlot machineSlot) {
-            String title = machineSlot.getTitle();
-            if (title != null) {
-                hoveringText.add(Component.translatable(machineSlot.getTitle()).withStyle(ChatFormatting.GREEN));
+            MutableComponent comp = machineSlot.getComp();
+            if (comp != null) {
+                hoveringText.add(comp.withStyle(ChatFormatting.GREEN));
             }
         }
 
@@ -143,7 +132,7 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
             int fuel = container.getFuelStored() / 100;
             String strFuel = df.format(fuel) + "/" + df.format(container.getMaxFuel() / 100);
 //            hoveringText.add(Component.literal("Fuel: ").append(df.format(fuel) + "/" + df.format(container.getMaxFuel() / 100)));
-            hoveringText.add(Component.translatable(VapourWare.MODID+".fuel", strFuel));
+            hoveringText.add(CompUtils.getArgComp("fuel", strFuel));
         }
 
         if (notCarrying && isInRect(this.leftPos + INFO_XPOS - 1, this.topPos + INFO_YPOS - 1, INFO_WIDTH + 2, INFO_HEIGHT + 2, mouseX, mouseY)) {
@@ -161,8 +150,8 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
     }
 
     protected void getAdditionalInfoHover(List<Component> hoveringText) {
-        hoveringText.add(Component.translatable(this.modID+"." + ID + ".info"));
-        hoveringText.add(Component.translatable(VapourWare.MODID+".fuel_excess.info"));
+        hoveringText.add(comp.get());
+        hoveringText.add(CompUtils.getComp("fuel_excess.info"));
     }
 
     // Returns true if the given x,y coordinates are within the given rectangle

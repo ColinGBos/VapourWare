@@ -1,17 +1,19 @@
 package vapourdrive.vapourware.shared.base.slots;
 
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
 public class AbstractMachineSlot extends SlotItemHandler {
-    public final String slotTitle;
+    public final DeferredComponent comp;
 
-    public AbstractMachineSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition, String slotTitle) {
+    public AbstractMachineSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition, DeferredComponent slotComp) {
         super(itemHandler, index, xPosition, yPosition);
-        this.slotTitle = slotTitle;
+        this.comp = slotComp;
     }
 
-    public String getTitle() {
-        return this.slotTitle;
+    public MutableComponent getComp() {
+        return this.comp.get();
     }
 }

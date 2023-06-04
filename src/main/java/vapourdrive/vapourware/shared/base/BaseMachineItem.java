@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -15,27 +14,30 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import vapourdrive.vapourware.VapourWare;
+import vapourdrive.vapourware.shared.utils.CompUtils;
+import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class BaseMachineItem extends BlockItem {
+public class BaseMachineItem extends BaseInfoItemBlock {
 
     protected final DecimalFormat df = new DecimalFormat("#,###");
 
-    public BaseMachineItem(Block pBlock, Properties pProperties) {
-        super(pBlock, pProperties);
+    public BaseMachineItem(Block pBlock, Properties pProperties, DeferredComponent comp) {
+        super(pBlock, pProperties, comp);
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag flag) {
-        list.add(Component.translatable(VapourWare.MODID+".fuel.info").withStyle(ChatFormatting.GRAY));
+        list.add(CompUtils.getComp("fuel.info").withStyle(ChatFormatting.GRAY));
         if (stack.getTag() != null) {
             list = appendAdditionalTagInfo(list, stack.getTag());
             String fuel = df.format(stack.getTag().getInt(VapourWare.MODID + ".fuel") / 100);
-            list.add(Component.translatable(VapourWare.MODID+".fuel", fuel));
+            list.add(CompUtils.getArgComp("fuel", fuel));
         }
+        super.appendHoverText(stack, level, list, flag);
     }
 
     protected List<Component> appendAdditionalTagInfo(List<Component> list, CompoundTag tag) {
