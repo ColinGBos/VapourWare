@@ -46,7 +46,7 @@ public class MachineUtils {
                 ret.add(stack);
             } else {
                 for (ItemStack retStack : ret) {
-                    if (ItemStack.isSame(retStack, stack) && retStack.getCount() < retStack.getMaxStackSize()) {
+                    if (ItemStack.isSameItemSameTags(retStack, stack) && retStack.getCount() < retStack.getMaxStackSize()) {
                         int change = Math.min(stack.getCount(), retStack.getMaxStackSize() - retStack.getCount());
                         retStack.grow(change);
                         stack.shrink(change);
@@ -101,7 +101,7 @@ public class MachineUtils {
 
     public static int tryConsumeFuelStack(ItemStack fuel, IFuelUser user) {
         if (!fuel.isEmpty()) {
-            if (user.getCurrentFuelStack().isEmpty() || !ItemStack.isSame(user.getCurrentFuelStack(), fuel)) {
+            if (user.getCurrentFuelStack().isEmpty() || !ItemStack.isSameItemSameTags(user.getCurrentFuelStack(), fuel)) {
                 user.setCurrentFuelStack(fuel.copy());
                 user.setCurrentBurn(getBurnDuration(fuel, user));
             }
@@ -117,7 +117,7 @@ public class MachineUtils {
                     }
                 }
                 user.removeFromSlot(Area.FUEL, 0, 1, false);
-                if (!ItemStack.isSame(user.getCurrentFuelStack(), fuel)) {
+                if (!ItemStack.isSameItemSameTags(user.getCurrentFuelStack(), fuel)) {
                     user.setCurrentFuelStack(ItemStack.EMPTY);
                     user.setCurrentBurn(getBurnDuration(fuel, user));
                 }

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import vapourdrive.vapourware.config.ConfigSettings;
+import vapourdrive.vapourware.setup.ModSetup;
 import vapourdrive.vapourware.setup.Registration;
 
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class VapourWare {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 //        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigSettings.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ConfigSettings.SERVER_CONFIG);
-
         Registration.init(eventBus);
+        eventBus.addListener(ModSetup::buildContents);
     }
 
     public static void debugLog(String toLog) {

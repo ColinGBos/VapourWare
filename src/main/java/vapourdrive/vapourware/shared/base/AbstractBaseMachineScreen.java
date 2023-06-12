@@ -1,8 +1,8 @@
 package vapourdrive.vapourware.shared.base;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -22,7 +22,7 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
     protected final AbstractBaseMachineContainer container;
     private final ResourceLocation GUI;
     protected int FUEL_XPOS = 12;
-    protected int FUEL_YPOS;
+    protected int FUEL_YPOS = 8;
     protected int FUEL_ICONX = 176;   // texture position of flame icon [u,v]
     protected int FUEL_ICONY = 0;
     protected int FUEL_HEIGHT = 46;
@@ -41,7 +41,7 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
         super(container, inv, name);
         this.container = container;
         this.titleLabelY = -10;
-        this.STACK_INFO_SIDEWAYS = false;
+        this.STACK_INFO_SIDEWAYS = stackInfoSideways;
         this.comp = compIn;
         this.GUI = new ResourceLocation(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
     }
@@ -79,19 +79,19 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
     }
 
     @Override
-    public void render(@NotNull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(@NotNull PoseStack matrixStack, int mouseX, int mouseY) {
-        this.font.draw(matrixStack, this.title, (float) this.titleLabelX, (float) this.titleLabelY, 16777215);
+    protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
+        graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 16777215);
     }
 
     @Override
-    protected void renderBg(@NotNull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShaderTexture(0, GUI);
         int relX = (this.width - getXSize()) / 2;
         int relY = (this.height - getYSize()) / 2;
@@ -99,23 +99,47 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
         int guiLeft = this.leftPos;
         int guiTop = this.topPos;
 
-        this.blit(matrixStack, relX, relY, 0, 0, getXSize(), getYSize());
+        graphics.blit(this.GUI, relX, relY, 0, 0, getXSize(), getYSize());
 
         int m = (int) (container.getFuelPercentage() * (FUEL_HEIGHT));
 
-        this.blit(matrixStack, guiLeft + FUEL_XPOS, guiTop + FUEL_YPOS + FUEL_HEIGHT - m, FUEL_ICONX, FUEL_ICONY + FUEL_HEIGHT - m, FUEL_WIDTH, m);
-        this.blit(matrixStack, guiLeft + INFO_XPOS, guiTop + INFO_YPOS, INFO_ICONX, INFO_ICONY + INFO_HEIGHT, INFO_WIDTH, INFO_HEIGHT);
+        graphics.blit(this.GUI, guiLeft + FUEL_XPOS, guiTop + FUEL_YPOS + FUEL_HEIGHT - m, FUEL_ICONX, FUEL_ICONY + FUEL_HEIGHT - m, FUEL_WIDTH, m);
+        graphics.blit(this.GUI, guiLeft + INFO_XPOS, guiTop + INFO_YPOS, INFO_ICONX, INFO_ICONY + INFO_HEIGHT, INFO_WIDTH, INFO_HEIGHT);
         if(ModList.get().isLoaded("jei")) {
             if (STACK_INFO_SIDEWAYS) {
-                blitAlt(matrixStack, INFO_XPOS - 15, INFO_YPOS, INFO_ICONX + INFO_WIDTH, INFO_ICONY, INFO_WIDTH, INFO_HEIGHT, mouseX, mouseY);
+                blitAlt(graphics, INFO_XPOS - 15, INFO_YPOS, INFO_ICONX + INFO_WIDTH, INFO_ICONY, INFO_WIDTH, INFO_HEIGHT, mouseX, mouseY);
             } else {
-                blitAlt(matrixStack, INFO_XPOS, INFO_YPOS + 15, INFO_ICONX + INFO_WIDTH, INFO_ICONY, INFO_WIDTH, INFO_HEIGHT, mouseX, mouseY);
+                blitAlt(graphics, INFO_XPOS, INFO_YPOS + 15, INFO_ICONX + INFO_WIDTH, INFO_ICONY, INFO_WIDTH, INFO_HEIGHT, mouseX, mouseY);
             }
         }
     }
 
+//    @Override
+//    protected void renderBg(@NotNull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+//        RenderSystem.setShaderTexture(0, GUI);
+//        int relX = (this.width - getXSize()) / 2;
+//        int relY = (this.height - getYSize()) / 2;
+//
+//        int guiLeft = this.leftPos;
+//        int guiTop = this.topPos;
+//
+//        this.blit(matrixStack, relX, relY, 0, 0, getXSize(), getYSize());
+//
+//        int m = (int) (container.getFuelPercentage() * (FUEL_HEIGHT));
+//
+//        this.blit(matrixStack, guiLeft + FUEL_XPOS, guiTop + FUEL_YPOS + FUEL_HEIGHT - m, FUEL_ICONX, FUEL_ICONY + FUEL_HEIGHT - m, FUEL_WIDTH, m);
+//        this.blit(matrixStack, guiLeft + INFO_XPOS, guiTop + INFO_YPOS, INFO_ICONX, INFO_ICONY + INFO_HEIGHT, INFO_WIDTH, INFO_HEIGHT);
+//        if(ModList.get().isLoaded("jei")) {
+//            if (STACK_INFO_SIDEWAYS) {
+//                blitAlt(matrixStack, INFO_XPOS - 15, INFO_YPOS, INFO_ICONX + INFO_WIDTH, INFO_ICONY, INFO_WIDTH, INFO_HEIGHT, mouseX, mouseY);
+//            } else {
+//                blitAlt(matrixStack, INFO_XPOS, INFO_YPOS + 15, INFO_ICONX + INFO_WIDTH, INFO_ICONY, INFO_WIDTH, INFO_HEIGHT, mouseX, mouseY);
+//            }
+//        }
+//    }
+
     @Override
-    protected void renderTooltip(@NotNull PoseStack matrixStack, int mouseX, int mouseY) {
+    protected void renderTooltip(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
         boolean notCarrying = this.menu.getCarried().isEmpty();
 
         List<Component> hoveringText = new ArrayList<>();
@@ -143,9 +167,9 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
 
         // If hoveringText is not empty draw the hovering text.  Otherwise, use vanilla to render tooltip for the slots
         if (!hoveringText.isEmpty()) {
-            renderComponentTooltip(matrixStack, hoveringText, mouseX, mouseY);
+            graphics.renderComponentTooltip(this.font, hoveringText, mouseX, mouseY);
         } else {
-            super.renderTooltip(matrixStack, mouseX, mouseY);
+            super.renderTooltip(graphics, mouseX, mouseY);
         }
     }
 
@@ -159,11 +183,11 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
         return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
     }
 
-    public void blitAlt(@NotNull PoseStack matrixStack, int offsetX, int offsetY, int iconX, int iconY, int width, int height, int mouseX, int mouseY) {
+    public void blitAlt(@NotNull GuiGraphics graphics, int offsetX, int offsetY, int iconX, int iconY, int width, int height, int mouseX, int mouseY) {
         if (isInRect(this.leftPos + offsetX, this.topPos + offsetY, width, height, mouseX, mouseY)) {
-            this.blit(matrixStack, this.leftPos + offsetX, this.topPos + offsetY, iconX, iconY + height, width, height);
+            graphics.blit(this.GUI, this.leftPos + offsetX, this.topPos + offsetY, iconX, iconY + height, width, height);
         } else {
-            this.blit(matrixStack, this.leftPos + offsetX, this.topPos + offsetY, iconX, iconY, width, height);
+            graphics.blit(this.GUI, this.leftPos + offsetX, this.topPos + offsetY, iconX, iconY, width, height);
         }
     }
 

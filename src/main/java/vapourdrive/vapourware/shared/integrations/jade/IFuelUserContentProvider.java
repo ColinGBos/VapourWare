@@ -3,9 +3,6 @@ package vapourdrive.vapourware.shared.integrations.jade;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
@@ -16,7 +13,7 @@ import vapourdrive.vapourware.shared.utils.CompUtils;
 
 import java.text.DecimalFormat;
 
-public enum IFuelUserContentProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
+public enum IFuelUserContentProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
     INSTANCE;
     private final DecimalFormat df = new DecimalFormat("#,###");
 
@@ -33,10 +30,18 @@ public enum IFuelUserContentProvider implements IBlockComponentProvider, IServer
         return JadePlugin.FUEL;
     }
 
+//    @Override
+//    public void appendServerData(CompoundTag data, ServerPlayer player, Level world, BlockEntity t, boolean showDetails) {
+//        if (t instanceof IFuelUser user) {
+//            data.putInt("Fuel", user.getCurrentFuel() / 100);
+//        }
+//    }
+
+
     @Override
-    public void appendServerData(CompoundTag data, ServerPlayer player, Level world, BlockEntity t, boolean showDetails) {
-        if (t instanceof IFuelUser user) {
-            data.putInt("Fuel", user.getCurrentFuel() / 100);
+    public void appendServerData(CompoundTag tag, BlockAccessor blockAccessor) {
+        if (blockAccessor.getBlockEntity() instanceof IFuelUser user) {
+            tag.putInt("Fuel", user.getCurrentFuel() / 100);
         }
     }
 }
