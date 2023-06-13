@@ -34,7 +34,7 @@ public class MachineUtils {
         } else {
             //everything is multiplied by 100 for variable increments instead of 1 per tick
             //i.e. 100% efficiency is 100 consumption per tick, 125% is 80 consumption etc
-            return (int)(net.minecraftforge.common.ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) * 100 * machine.getEfficiencyMultiplier());
+            return (int) (net.minecraftforge.common.ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) * 100 * machine.getEfficiencyMultiplier());
         }
     }
 

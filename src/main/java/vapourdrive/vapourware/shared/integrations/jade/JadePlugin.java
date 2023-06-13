@@ -12,7 +12,7 @@ import vapourdrive.vapourware.shared.base.AbstractBaseMachineBlock;
 @WailaPlugin
 public class JadePlugin implements IWailaPlugin {
 
-    public static final ResourceLocation FUEL = new ResourceLocation(VapourWare.MODID+".fuel");
+    public static final ResourceLocation FUEL = new ResourceLocation(VapourWare.MODID + ".fuel");
 
     @Override
     public void register(IWailaCommonRegistration registration) {

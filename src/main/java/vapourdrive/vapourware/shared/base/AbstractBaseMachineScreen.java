@@ -46,7 +46,7 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
         this.GUI = new ResourceLocation(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
     }
 
-    public AbstractBaseMachineScreen(T container, Inventory inv, Component name, DeferredComponent compIn,  int fuelX, int fuelY, int fuelH, int helpX, int helpY, int titleX, boolean stackInfoSideways) {
+    public AbstractBaseMachineScreen(T container, Inventory inv, Component name, DeferredComponent compIn, int fuelX, int fuelY, int fuelH, int helpX, int helpY, int titleX, boolean stackInfoSideways) {
         super(container, inv, name);
         this.container = container;
         this.titleLabelX = titleX;
@@ -75,7 +75,7 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
 
     @Override
     protected boolean hasClickedOutside(double pMouseX, double pMouseY, int pGuiLeft, int pGuiTop, int pMouseButton) {
-        return pMouseX < (double)pGuiLeft || pMouseY < (double)pGuiTop || pMouseX >= (double)(pGuiLeft + getXSize()) || pMouseY >= (double)(pGuiTop + getYSize());
+        return pMouseX < (double) pGuiLeft || pMouseY < (double) pGuiTop || pMouseX >= (double) (pGuiLeft + getXSize()) || pMouseY >= (double) (pGuiTop + getYSize());
     }
 
     @Override
@@ -105,7 +105,7 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
 
         graphics.blit(this.GUI, guiLeft + FUEL_XPOS, guiTop + FUEL_YPOS + FUEL_HEIGHT - m, FUEL_ICONX, FUEL_ICONY + FUEL_HEIGHT - m, FUEL_WIDTH, m);
         graphics.blit(this.GUI, guiLeft + INFO_XPOS, guiTop + INFO_YPOS, INFO_ICONX, INFO_ICONY + INFO_HEIGHT, INFO_WIDTH, INFO_HEIGHT);
-        if(ModList.get().isLoaded("jei")) {
+        if (ModList.get().isLoaded("jei")) {
             if (STACK_INFO_SIDEWAYS) {
                 blitAlt(graphics, INFO_XPOS - 15, INFO_YPOS, INFO_ICONX + INFO_WIDTH, INFO_ICONY, INFO_WIDTH, INFO_HEIGHT, mouseX, mouseY);
             } else {

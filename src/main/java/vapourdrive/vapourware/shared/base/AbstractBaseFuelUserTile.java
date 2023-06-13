@@ -59,10 +59,9 @@ public abstract class AbstractBaseFuelUserTile extends BlockEntity implements IF
     @Override
     public boolean canWork(BlockState state) {
         boolean canWork = true;
-        if(Objects.requireNonNull(this.getLevel()).hasNeighborSignal(this.worldPosition)){
+        if (Objects.requireNonNull(this.getLevel()).hasNeighborSignal(this.worldPosition)) {
             canWork = false;
-        }
-        else if (getCurrentFuel() < getMinFuelToWork()) {
+        } else if (getCurrentFuel() < getMinFuelToWork()) {
             canWork = false;
         }
         changeStateIfNecessary(state, canWork);
@@ -89,12 +88,12 @@ public abstract class AbstractBaseFuelUserTile extends BlockEntity implements IF
     }
 
     @Override
-    public double getSpeedMultiplier(){
+    public double getSpeedMultiplier() {
         return 1.0;
     }
 
     @Override
-    public double getEfficiencyMultiplier(){
+    public double getEfficiencyMultiplier() {
         return 1.0;
     }
 

@@ -9,28 +9,29 @@ public class DeferredComponent {
     private final String tail;
     private final ForgeConfigSpec.ConfigValue<?> configValue;
     private final Object arg;
-    public DeferredComponent(String modIDIn, String tailIn, ForgeConfigSpec.ConfigValue<?> configValueIn){
+
+    public DeferredComponent(String modIDIn, String tailIn, ForgeConfigSpec.ConfigValue<?> configValueIn) {
         modID = modIDIn;
         tail = tailIn;
         configValue = configValueIn;
         arg = null;
     }
 
-    public DeferredComponent(String modIDIn, String tailIn, Object argIn){
+    public DeferredComponent(String modIDIn, String tailIn, Object argIn) {
         modID = modIDIn;
         tail = tailIn;
         configValue = null;
         arg = argIn;
     }
 
-    public DeferredComponent(String tailIn, ForgeConfigSpec.ConfigValue<?> configValueIn){
+    public DeferredComponent(String tailIn, ForgeConfigSpec.ConfigValue<?> configValueIn) {
         modID = VapourWare.MODID;
         tail = tailIn;
         configValue = configValueIn;
         arg = null;
     }
 
-    public DeferredComponent(String modIDIn, String tailIn){
+    public DeferredComponent(String modIDIn, String tailIn) {
         modID = modIDIn;
         tail = tailIn;
         configValue = null;
@@ -38,29 +39,28 @@ public class DeferredComponent {
     }
 
 
-    public DeferredComponent(String tailIn){
+    public DeferredComponent(String tailIn) {
         modID = VapourWare.MODID;
         tail = tailIn;
         configValue = null;
         arg = null;
     }
 
-    public MutableComponent get(){
-        if(configValue != null){
+    public MutableComponent get() {
+        if (configValue != null) {
             return CompUtils.getArgComp(modID, tail, configValue.get());
-        } else if(arg!=null){
+        } else if (arg != null) {
             return CompUtils.getArgComp(modID, tail, arg);
-        }
-        else{
+        } else {
             return CompUtils.getComp(modID, tail);
         }
     }
 
-    public String getMod(){
+    public String getMod() {
         return modID;
     }
 
-    public String getTail(){
+    public String getTail() {
         return tail;
     }
 }
