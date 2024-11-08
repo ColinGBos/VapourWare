@@ -1,8 +1,8 @@
 package vapourdrive.vapourware.shared.base.slots;
 
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
 public class AbstractMachineSlot extends SlotItemHandler {

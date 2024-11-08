@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -13,7 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import vapourdrive.vapourware.VapourWare;
+import vapourdrive.vapourware.setup.Registration;
 import vapourdrive.vapourware.shared.utils.CompUtils;
 import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
@@ -30,14 +31,12 @@ public class BaseMachineItem extends BaseInfoItemBlock {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag flag) {
-        list.add(CompUtils.getComp("fuel.info").withStyle(ChatFormatting.GRAY));
-        if (stack.getTag() != null) {
-            list = appendAdditionalTagInfo(list, stack.getTag());
-            String fuel = df.format(stack.getTag().getInt(VapourWare.MODID + ".fuel") / 100);
-            list.add(CompUtils.getArgComp("fuel", fuel));
-        }
-        super.appendHoverText(stack, level, list, flag);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        tooltipComponents.add(CompUtils.getComp("fuel.info").withStyle(ChatFormatting.GRAY));
+        int fuelInt = stack.getOrDefault(Registration.FUEL, 0);
+        String fuel = df.format(fuelInt / 100);
+        tooltipComponents.add(CompUtils.getArgComp("fuel", fuel));
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
     protected List<Component> appendAdditionalTagInfo(List<Component> list, CompoundTag tag) {
@@ -47,7 +46,10 @@ public class BaseMachineItem extends BaseInfoItemBlock {
     @Override
     protected boolean updateCustomBlockEntityTag(@NotNull BlockPos pPos, Level pLevel, @Nullable Player pPlayer, @NotNull ItemStack pStack, @NotNull BlockState pState) {
         MinecraftServer minecraftserver = pLevel.getServer();
-        if (minecraftserver == null || pStack.getTag() == null) {
+        if (minecraftserver == null) {
+            return false;
+        }
+        if (pStack.get(Registration.FUEL) == null) {
             return false;
         }
 
@@ -56,20 +58,25 @@ public class BaseMachineItem extends BaseInfoItemBlock {
             return false;
         }
 
-        CompoundTag tag = pStack.getTag();
-
         if (blockentity instanceof AbstractBaseFuelUserTile fuelUserTile) {
-            int fuel = tag.getInt(VapourWare.MODID + ".fuel");
-            fuelUserTile.addFuel(fuel, false);
+            int fuelInt = pStack.getOrDefault(Registration.FUEL, 0);
+            fuelUserTile.addFuel(fuelInt, false);
         }
 
-        updateAdditional(blockentity, tag);
+        updateAdditional(blockentity, pStack);
 
         return true;
     }
 
-    protected void updateAdditional(BlockEntity blockentity, CompoundTag tag) {
+    protected void updateAdditional(BlockEntity blockentity, ItemStack pStack) {
         blockentity.setChanged();
+    }
+
+    @Override
+    public @NotNull ItemStack getDefaultInstance() {
+        ItemStack stack = new ItemStack(this);
+        stack.set(Registration.FUEL, 0);
+        return stack;
     }
 }
 

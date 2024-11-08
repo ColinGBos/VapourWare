@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import vapourdrive.vapourware.shared.base.slots.AbstractMachineSlot;
 import vapourdrive.vapourware.shared.utils.CompUtils;
@@ -18,9 +18,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> extends AbstractContainerScreen<T> {
-    protected final AbstractBaseMachineContainer container;
-    private final ResourceLocation GUI;
+public class AbstractBaseMachineScreen<T extends AbstractBaseMachineMenu> extends AbstractContainerScreen<T> {
+    protected final AbstractBaseMachineMenu machineMenu;
+    protected final ResourceLocation GUI;
     protected int FUEL_XPOS = 12;
     protected int FUEL_YPOS = 8;
     protected int FUEL_ICONX = 176;   // texture position of flame icon [u,v]
@@ -37,18 +37,19 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
     protected final boolean STACK_INFO_SIDEWAYS;
     protected final DecimalFormat df = new DecimalFormat("#,###");
 
-    public AbstractBaseMachineScreen(T container, Inventory inv, Component name, DeferredComponent compIn, boolean stackInfoSideways) {
-        super(container, inv, name);
-        this.container = container;
+    public AbstractBaseMachineScreen(T menu, Inventory inv, Component name, DeferredComponent compIn, boolean stackInfoSideways) {
+        super(menu, inv, name);
+        this.machineMenu = menu;
         this.titleLabelY = -10;
         this.STACK_INFO_SIDEWAYS = stackInfoSideways;
         this.comp = compIn;
-        this.GUI = new ResourceLocation(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
+//        this.GUI = new ResourceLocation(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
+        this.GUI = ResourceLocation.fromNamespaceAndPath(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
     }
 
-    public AbstractBaseMachineScreen(T container, Inventory inv, Component name, DeferredComponent compIn, int fuelX, int fuelY, int fuelH, int helpX, int helpY, int titleX, boolean stackInfoSideways) {
-        super(container, inv, name);
-        this.container = container;
+    public AbstractBaseMachineScreen(T menu, Inventory inv, Component name, DeferredComponent compIn, int fuelX, int fuelY, int fuelH, int helpX, int helpY, int titleX, boolean stackInfoSideways) {
+        super(menu, inv, name);
+        this.machineMenu = menu;
         this.titleLabelX = titleX;
         this.titleLabelY = -10;
         this.FUEL_XPOS = fuelX;
@@ -57,7 +58,8 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
         this.INFO_YPOS = helpY;
         this.STACK_INFO_SIDEWAYS = stackInfoSideways;
         this.comp = compIn;
-        this.GUI = new ResourceLocation(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
+//        this.GUI = new ResourceLocation(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
+        this.GUI = ResourceLocation.fromNamespaceAndPath(compIn.getMod(), "textures/gui/" + compIn.getTail() + "_gui.png");
         this.FUEL_HEIGHT = fuelH;
     }
 
@@ -80,7 +82,7 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
 
     @Override
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(graphics);
+        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(graphics, mouseX, mouseY);
     }
@@ -101,7 +103,7 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
 
         graphics.blit(this.GUI, relX, relY, 0, 0, getXSize(), getYSize());
 
-        int m = (int) (container.getFuelPercentage() * (FUEL_HEIGHT));
+        int m = (int) (machineMenu.getFuelPercentage() * (FUEL_HEIGHT));
 
         graphics.blit(this.GUI, guiLeft + FUEL_XPOS, guiTop + FUEL_YPOS + FUEL_HEIGHT - m, FUEL_ICONX, FUEL_ICONY + FUEL_HEIGHT - m, FUEL_WIDTH, m);
         graphics.blit(this.GUI, guiLeft + INFO_XPOS, guiTop + INFO_YPOS, INFO_ICONX, INFO_ICONY + INFO_HEIGHT, INFO_WIDTH, INFO_HEIGHT);
@@ -153,8 +155,8 @@ public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> e
 
         // If the mouse is over the experience bar, add hovering text
         if (notCarrying && isInRect(this.leftPos + FUEL_XPOS, this.topPos + FUEL_YPOS, FUEL_WIDTH, FUEL_HEIGHT, mouseX, mouseY)) {
-            int fuel = container.getFuelStored() / 100;
-            String strFuel = df.format(fuel) + "/" + df.format(container.getMaxFuel() / 100);
+            int fuel = machineMenu.getFuelStored() / 100;
+            String strFuel = df.format(fuel) + "/" + df.format(machineMenu.getMaxFuel() / 100);
 //            hoveringText.add(Component.literal("Fuel: ").append(df.format(fuel) + "/" + df.format(container.getMaxFuel() / 100)));
             hoveringText.add(CompUtils.getArgComp("fuel", strFuel));
         }

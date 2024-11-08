@@ -10,14 +10,14 @@
       "item": "minecraft:leather"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "S": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "vapourware:wrench",
+    "id": "vapourware:wrench",
     "count": 1
   }
 }

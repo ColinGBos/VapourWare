@@ -34,7 +34,7 @@ public class MachineUtils {
         } else {
             //everything is multiplied by 100 for variable increments instead of 1 per tick
             //i.e. 100% efficiency is 100 consumption per tick, 125% is 80 consumption etc
-            return (int) (net.minecraftforge.common.ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) * 100 * machine.getEfficiencyMultiplier());
+            return (int) (stack.getBurnTime(RecipeType.SMELTING) * 100 * machine.getEfficiencyMultiplier());
         }
     }
 
@@ -46,7 +46,7 @@ public class MachineUtils {
                 ret.add(stack);
             } else {
                 for (ItemStack retStack : ret) {
-                    if (ItemStack.isSameItemSameTags(retStack, stack) && retStack.getCount() < retStack.getMaxStackSize()) {
+                    if (ItemStack.isSameItemSameComponents(retStack, stack) && retStack.getCount() < retStack.getMaxStackSize()) {
                         int change = Math.min(stack.getCount(), retStack.getMaxStackSize() - retStack.getCount());
                         retStack.grow(change);
                         stack.shrink(change);
@@ -101,7 +101,7 @@ public class MachineUtils {
 
     public static int tryConsumeFuelStack(ItemStack fuel, IFuelUser user) {
         if (!fuel.isEmpty()) {
-            if (user.getCurrentFuelStack().isEmpty() || !ItemStack.isSameItemSameTags(user.getCurrentFuelStack(), fuel)) {
+            if (user.getCurrentFuelStack().isEmpty() || !ItemStack.isSameItemSameComponents(user.getCurrentFuelStack(), fuel)) {
                 user.setCurrentFuelStack(fuel.copy());
                 user.setCurrentBurn(getBurnDuration(fuel, user));
             }
@@ -117,7 +117,7 @@ public class MachineUtils {
                     }
                 }
                 user.removeFromSlot(Area.FUEL, 0, 1, false);
-                if (!ItemStack.isSameItemSameTags(user.getCurrentFuelStack(), fuel)) {
+                if (!ItemStack.isSameItemSameComponents(user.getCurrentFuelStack(), fuel)) {
                     user.setCurrentFuelStack(ItemStack.EMPTY);
                     user.setCurrentBurn(getBurnDuration(fuel, user));
                 }

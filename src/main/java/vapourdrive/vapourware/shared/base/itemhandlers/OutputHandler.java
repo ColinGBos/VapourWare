@@ -3,8 +3,7 @@ package vapourdrive.vapourware.shared.base.itemhandlers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import vapourdrive.vapourware.VapourWare;
 
 import javax.annotation.Nonnull;
@@ -67,7 +66,10 @@ public class OutputHandler extends ItemStackHandler {
         int limit = getStackLimit(slot, stack);
 
         if (!existing.isEmpty()) {
-            if (!ItemHandlerHelper.canItemStacksStack(stack, existing))
+//            if (!ItemHandlerHelper.canItemStacksStack(stack, existing))
+//                return stack;
+
+            if (!ItemStack.isSameItemSameComponents(existing, stack))
                 return stack;
 
             limit -= existing.getCount();
@@ -80,14 +82,15 @@ public class OutputHandler extends ItemStackHandler {
 
         if (!simulate) {
             if (existing.isEmpty()) {
-                this.stacks.set(slot, reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack);
+//                this.stacks.set(slot, reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack);
+                this.stacks.set(slot, reachedLimit ? stack.copyWithCount(limit) : stack);
             } else {
                 existing.grow(reachedLimit ? limit : stack.getCount());
             }
             onContentsChanged(slot);
         }
 
-        return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - limit) : ItemStack.EMPTY;
+        return reachedLimit ? stack.copyWithCount(stack.getCount() - limit) : ItemStack.EMPTY;
     }
 
     public boolean isFull() {

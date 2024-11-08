@@ -1,16 +1,16 @@
 package vapourdrive.vapourware.shared.utils;
 
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import vapourdrive.vapourware.VapourWare;
 
 public class DeferredComponent {
     private final String modID;
     private final String tail;
-    private final ForgeConfigSpec.ConfigValue<?> configValue;
+    private final ModConfigSpec.ConfigValue<?> configValue;
     private final Object arg;
 
-    public DeferredComponent(String modIDIn, String tailIn, ForgeConfigSpec.ConfigValue<?> configValueIn) {
+    public DeferredComponent(String modIDIn, String tailIn, ModConfigSpec.ConfigValue<?> configValueIn) {
         modID = modIDIn;
         tail = tailIn;
         configValue = configValueIn;
@@ -24,7 +24,7 @@ public class DeferredComponent {
         arg = argIn;
     }
 
-    public DeferredComponent(String tailIn, ForgeConfigSpec.ConfigValue<?> configValueIn) {
+    public DeferredComponent(String tailIn, ModConfigSpec.ConfigValue<?> configValueIn) {
         modID = VapourWare.MODID;
         tail = tailIn;
         configValue = configValueIn;

@@ -1,6 +1,7 @@
 package vapourdrive.vapourware.shared.base;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -41,16 +42,16 @@ public abstract class AbstractBaseFuelUserTile extends BlockEntity implements IF
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        super.loadAdditional(tag, registries);
         increment = tag.getInt("increment");
         toAdd = tag.getInt("toAdd");
         addFuel(tag.getInt("fuel"), false);
     }
 
     @Override
-    public void saveAdditional(@NotNull CompoundTag tag) {
-        super.saveAdditional(tag);
+    public void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.putInt("increment", increment);
         tag.putInt("toAdd", toAdd);
         tag.putInt("fuel", getCurrentFuel());

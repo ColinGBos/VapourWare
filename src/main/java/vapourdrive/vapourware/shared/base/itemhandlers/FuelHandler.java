@@ -3,8 +3,7 @@ package vapourdrive.vapourware.shared.base.itemhandlers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import vapourdrive.vapourware.shared.base.AbstractBaseFuelUserTile;
 
 import javax.annotation.Nonnull;
@@ -26,7 +25,7 @@ public class FuelHandler extends ItemStackHandler {
 
     @Override
     public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-        return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0.0;
+        return stack.getBurnTime(RecipeType.SMELTING) > 0.0;
     }
 
     @Nonnull

@@ -1,16 +1,16 @@
 package vapourdrive.vapourware.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ConfigSettings {
     public static final String CATEGORY_MOD = "vapourware";
 
-    public static final ForgeConfigSpec SERVER_CONFIG;
+    public static final ModConfigSpec SERVER_CONFIG;
     //    public static ForgeConfigSpec CLIENT_CONFIG;
 
 
     static {
-        ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder SERVER_BUILDER = new ModConfigSpec.Builder();
 //        ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
 
         SERVER_BUILDER.comment("VapourWare Settings").push(CATEGORY_MOD);
@@ -24,7 +24,7 @@ public class ConfigSettings {
 //        CLIENT_CONFIG = CLIENT_BUILDER.build();
     }
 
-    private static void setupFirstBlockConfig(ForgeConfigSpec.Builder SERVER_BUILDER) {
+    private static void setupFirstBlockConfig(ModConfigSpec.Builder SERVER_BUILDER) {
 //        SERVER_BUILDER.comment("Mixin Settings").push(SUBCATEGORY_MIXINS);
 //        REPLACE_CROP_BLOCK_SHAPE = SERVER_BUILDER.comment("Replace the hitbox of Crop Block with a tighter shape (allows access to soil and follows texture better)").define("replaceCropBlockShape", false);
 //        REPLACE_BEETROOT_SHAPE = SERVER_BUILDER.comment("Replace the hitbox of BeetRoot Block with a tighter shape (allows access to soil and follows texture better)").define("replaceBeetRootBlockShape", false);

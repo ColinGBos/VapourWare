@@ -8,16 +8,16 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public abstract class AbstractBaseMachineContainer extends AbstractContainerMenu {
+public abstract class AbstractBaseMachineMenu extends AbstractContainerMenu {
 
     public static final int PLAYER_INVENTORY_XPOS = 8;
     public static final int PLAYER_INVENTORY_YPOS = 84;
@@ -27,7 +27,7 @@ public abstract class AbstractBaseMachineContainer extends AbstractContainerMenu
     protected final Level world;
     protected final ContainerData machineData;
 
-    public AbstractBaseMachineContainer(int windowId, Level world, BlockPos pos, Inventory inv, Player player, @Nullable MenuType<?> menu, ContainerData machineData) {
+    public AbstractBaseMachineMenu(int windowId, Level world, BlockPos pos, Inventory inv, Player player, @Nullable MenuType<?> menu, ContainerData machineData) {
         super(menu, windowId);
         tileEntity = (AbstractBaseFuelUserTile) world.getBlockEntity(pos);
         this.playerEntity = player;

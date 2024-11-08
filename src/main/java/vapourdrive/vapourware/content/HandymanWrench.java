@@ -17,7 +17,7 @@ import vapourdrive.vapourware.shared.utils.DeferredComponent;
 import java.util.Objects;
 
 public class HandymanWrench extends BaseInfoItem {
-    public static final TagKey<Item> wrench = ItemTags.create(new ResourceLocation("forge", "tools/wrench"));
+    public static final TagKey<Item> wrench = ItemTags.create(ResourceLocation.fromNamespaceAndPath("forge", "tools/wrench"));
 
     public HandymanWrench(Item.Properties pProperties) {
         super(pProperties.stacksTo(1), new DeferredComponent("wrench.info"));

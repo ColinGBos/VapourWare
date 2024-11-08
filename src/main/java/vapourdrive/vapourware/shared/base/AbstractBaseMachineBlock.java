@@ -8,7 +8,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -21,10 +21,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import vapourdrive.vapourware.VapourWare;
-import vapourdrive.vapourware.content.HandymanWrench;
+import vapourdrive.vapourware.setup.Registration;
 
 import static net.minecraft.world.Containers.dropItemStack;
 
@@ -44,37 +44,49 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
 
 
     @Override
-    @SuppressWarnings("deprecation")
-    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult trace) {
-        if (player.getItemInHand(hand).is(HandymanWrench.wrench)) {
-            return InteractionResult.PASS;
+    protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (player.getItemInHand(hand).is(Registration.HANDYMAN_WRENCH.get())) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         } else if (!level.isClientSide) {
             openContainer(level, pos, player);
         }
-        return InteractionResult.CONSUME;
+        return ItemInteractionResult.CONSUME;
     }
 
+//    @Override
+//    @SuppressWarnings("deprecation")
+//    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult trace) {
+//        if (player.getItemInHand(hand).is(HandymanWrench.wrench)) {
+//            return InteractionResult.PASS;
+//        } else if (!level.isClientSide) {
+//            openContainer(level, pos, player);
+//        }
+//        return InteractionResult.CONSUME;
+//    }
 
     protected void openContainer(Level level, @NotNull BlockPos pos, @NotNull Player player) {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public void attack(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player) {
-        if (player.getMainHandItem().is(HandymanWrench.wrench)) {
+        VapourWare.debugLog(player.getMainHandItem().toString());
+        if (player.getMainHandItem().is(Registration.HANDYMAN_WRENCH.get())) {
             disassemble(state, level, pos);
+            VapourWare.debugLog("in block disassembly call from attack field");
         }
+        VapourWare.debugLog("in block disassembly call from attack field, not with wrench");
     }
 
     public boolean sneakWrenchMachine(Player player, Level level, BlockPos pos) {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     public void disassemble(BlockState state, @NotNull Level level, @NotNull BlockPos blockPos) {
         dropItemStack(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), getProtectedItemStack(level, blockPos, state));
         onRemove(state, level, blockPos, Blocks.AIR.defaultBlockState(), false);
         level.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
+        VapourWare.debugLog("in th end of the disassembly");
+
     }
 
     @SuppressWarnings("deprecation")
@@ -83,16 +95,14 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
         BlockEntity blockEntity = world.getBlockEntity(blockPos);
         if (blockEntity instanceof IFuelUser machine) {
             VapourWare.debugLog("within the protected thing");
-            CompoundTag tag = new CompoundTag();
-            tag.putInt(VapourWare.MODID + ".fuel", machine.getCurrentFuel());
-            tag = putAdditionalInfo(tag, blockEntity);
-            stack.setTag(tag);
+            stack.set(Registration.FUEL, machine.getCurrentFuel());
         }
+        stack = putAdditionalInfo(stack, blockEntity);
         return stack;
     }
 
-    protected CompoundTag putAdditionalInfo(CompoundTag tag, BlockEntity blockEntity) {
-        return tag;
+    protected ItemStack putAdditionalInfo(ItemStack stack, BlockEntity blockEntity) {
+        return stack;
     }
 
     protected static void dropContents(Level world, BlockPos blockPos, IItemHandler handler) {
@@ -103,7 +113,6 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.MODEL;
     }
@@ -136,7 +145,6 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public @NotNull BlockState rotate(BlockState pState, Rotation pRotation) {
         return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
     }
