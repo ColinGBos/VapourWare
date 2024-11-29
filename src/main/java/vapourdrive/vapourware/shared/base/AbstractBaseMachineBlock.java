@@ -3,7 +3,6 @@ package vapourdrive.vapourware.shared.base;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -26,9 +25,11 @@ import org.jetbrains.annotations.NotNull;
 import vapourdrive.vapourware.VapourWare;
 import vapourdrive.vapourware.setup.Registration;
 
+import java.util.function.ToIntFunction;
+
 import static net.minecraft.world.Containers.dropItemStack;
 
-public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
+public abstract class AbstractBaseMachineBlock extends AbstractBaseContainerBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     private final float offset;
@@ -38,19 +39,13 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
                 .sound(SoundType.STONE)
                 .strength(10.0f)
                 .requiresCorrectToolForDrops()
+                .lightLevel(litBlockEmission())
         );
         this.offset = offset;
     }
 
-
-    @Override
-    protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (player.getItemInHand(hand).is(Registration.HANDYMAN_WRENCH.get())) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        } else if (!level.isClientSide) {
-            openContainer(level, pos, player);
-        }
-        return ItemInteractionResult.CONSUME;
+    private static ToIntFunction<BlockState> litBlockEmission() {
+        return isLit -> isLit.getValue(BlockStateProperties.LIT) ? 13 : 0;
     }
 
 //    @Override
@@ -64,32 +59,9 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
 //        return InteractionResult.CONSUME;
 //    }
 
-    protected void openContainer(Level level, @NotNull BlockPos pos, @NotNull Player player) {
-    }
-
-    @Override
-    public void attack(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player) {
-        VapourWare.debugLog(player.getMainHandItem().toString());
-        if (player.getMainHandItem().is(Registration.HANDYMAN_WRENCH.get())) {
-            disassemble(state, level, pos);
-            VapourWare.debugLog("in block disassembly call from attack field");
-        }
-        VapourWare.debugLog("in block disassembly call from attack field, not with wrench");
-    }
-
-    public boolean sneakWrenchMachine(Player player, Level level, BlockPos pos) {
-        return false;
-    }
-
-    public void disassemble(BlockState state, @NotNull Level level, @NotNull BlockPos blockPos) {
-        dropItemStack(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), getProtectedItemStack(level, blockPos, state));
-        onRemove(state, level, blockPos, Blocks.AIR.defaultBlockState(), false);
-        level.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
-        VapourWare.debugLog("in th end of the disassembly");
-
-    }
 
     @SuppressWarnings("deprecation")
+    @Override
     protected ItemStack getProtectedItemStack(@NotNull Level world, @NotNull BlockPos blockPos, BlockState state) {
         ItemStack stack = getCloneItemStack(world, blockPos, state).copy();
         BlockEntity blockEntity = world.getBlockEntity(blockPos);
@@ -99,22 +71,6 @@ public abstract class AbstractBaseMachineBlock extends BaseEntityBlock {
         }
         stack = putAdditionalInfo(stack, blockEntity);
         return stack;
-    }
-
-    protected ItemStack putAdditionalInfo(ItemStack stack, BlockEntity blockEntity) {
-        return stack;
-    }
-
-    protected static void dropContents(Level world, BlockPos blockPos, IItemHandler handler) {
-        for (int i = 0; i < handler.getSlots(); ++i) {
-            dropItemStack(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), handler.getStackInSlot(i));
-        }
-
-    }
-
-    @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
-        return RenderShape.MODEL;
     }
 
     /**

@@ -3,36 +3,21 @@ package vapourdrive.vapourware.shared.base;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.DataSlot;
-import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public abstract class AbstractBaseMachineMenu extends AbstractContainerMenu {
+public abstract class AbstractBaseMachineMenu extends AbstractBaseContainerMenu {
 
-    public static final int PLAYER_INVENTORY_XPOS = 8;
-    public static final int PLAYER_INVENTORY_YPOS = 84;
-    protected final AbstractBaseFuelUserTile tileEntity;
-    protected final Player playerEntity;
-    private final IItemHandler playerInventory;
-    protected final Level world;
+    protected final AbstractBaseFuelUserTile baseFuelUserTile;
     protected final ContainerData machineData;
 
     public AbstractBaseMachineMenu(int windowId, Level world, BlockPos pos, Inventory inv, Player player, @Nullable MenuType<?> menu, ContainerData machineData) {
-        super(menu, windowId);
-        tileEntity = (AbstractBaseFuelUserTile) world.getBlockEntity(pos);
-        this.playerEntity = player;
-        this.playerInventory = new InvWrapper(inv);
-        this.world = world;
+        super(windowId, world, pos, inv, player, menu);
+        baseFuelUserTile = (AbstractBaseFuelUserTile) world.getBlockEntity(pos);
         this.machineData = machineData;
     }
 
@@ -68,49 +53,18 @@ public abstract class AbstractBaseMachineMenu extends AbstractContainerMenu {
 
     }
 
-    @Override
-    public boolean stillValid(@NotNull Player playerIn) {
-        return true;
-    }
-
-
-    private int addPlayerInvRow(IItemHandler handler, int index, int x, int y) {
-        for (int i = 0; i < 9; i++) {
-            addSlot(new SlotItemHandler(handler, index, x, y));
-            x += 18;
-            index++;
-        }
-        return index;
-    }
-
-    private void addPlayerInv(IItemHandler handler, int index, int x, int y) {
-        for (int j = 0; j < 3; j++) {
-            index = addPlayerInvRow(handler, index, x, y);
-            y += 18;
-        }
-    }
-
-    protected void layoutPlayerInventorySlots(int leftCol, int topRow) {
-        // Player inventory
-        int index = addPlayerInvRow(playerInventory, 0, leftCol, topRow + 58);
-
-        //hotbar
-        addPlayerInv(playerInventory, index, leftCol, topRow);
-
-    }
-
     @OnlyIn(Dist.CLIENT)
     public float getFuelPercentage() {
         int i = this.machineData.get(0);
         if (i == 0) {
             return 0;
         }
-        return (float) i / (float) tileEntity.getMaxFuel();
+        return (float) i / (float) baseFuelUserTile.getMaxFuel();
     }
 
     @OnlyIn(Dist.CLIENT)
     public float getMaxFuel() {
-        return tileEntity.getMaxFuel();
+        return baseFuelUserTile.getMaxFuel();
     }
 
     @OnlyIn(Dist.CLIENT)
