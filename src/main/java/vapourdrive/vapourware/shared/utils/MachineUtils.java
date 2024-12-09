@@ -96,6 +96,10 @@ public class MachineUtils {
         if (user.getFuelToAdd() > 0) {
             user.addFuel(user.getIncrementalFuelToAdd(), false);
             user.setFuelToAdd(user.getFuelToAdd() - user.getIncrementalFuelToAdd());
+            if(user.getFuelToAdd()<user.getIncrementalFuelToAdd()){
+                user.addFuel(user.getFuelToAdd(), false);
+                user.setFuelToAdd(0);
+            }
         }
     }
 
