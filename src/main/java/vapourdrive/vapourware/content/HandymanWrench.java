@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import vapourdrive.vapourware.shared.base.AbstractBaseContainerBlock;
-import vapourdrive.vapourware.shared.base.AbstractBaseMachineBlock;
 import vapourdrive.vapourware.shared.base.BaseInfoItem;
 import vapourdrive.vapourware.shared.utils.DeferredComponent;
 

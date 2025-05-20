@@ -8,7 +8,7 @@ displayName = "VapourWare" #mandatory
 credits = "Thanks goes to everyone who has contributed to the global modding knowledge database, MCJTY, Kaupenjoe, and TheGreyGhost for tutorials/resources" #optional
 authors = "VapourDrive" #optional
 description = '''
-This mod contains the building blocks for my other mods... and a wrench
+This mod contains the foundational code (helper functions, gui, registration, handlers, util, etc.) for my other mods... and a wrench
 '''
 [[dependencies.vapourware]] #optional
 modId = "forge" #mandatory

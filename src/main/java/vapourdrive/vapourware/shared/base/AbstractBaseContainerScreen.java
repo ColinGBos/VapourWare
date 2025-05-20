@@ -1,17 +1,13 @@
 package vapourdrive.vapourware.shared.base;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
-import vapourdrive.vapourware.shared.base.slots.AbstractMachineSlot;
-import vapourdrive.vapourware.shared.utils.CompUtils;
 import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
 import java.text.DecimalFormat;
