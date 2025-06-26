@@ -102,7 +102,7 @@ public class AbstractBaseContainerScreen<T extends AbstractBaseContainerMenu> ex
         graphics.blit(this.GUI, relX, relY, 0, 0, getXSize(), getYSize());
 
         graphics.blit(this.GUI, guiLeft + INFO_XPOS, guiTop + INFO_YPOS, INFO_ICONX, INFO_ICONY + INFO_HEIGHT, INFO_WIDTH, INFO_HEIGHT);
-        if (ModList.get().isLoaded("jei") && HAS_RECIPES) {
+        if (ModList.get().isLoaded("jei") && !ModList.get().isLoaded("emi") && HAS_RECIPES) {
             blitAlt(graphics, INFO_XPOS, INFO_YPOS + 15, INFO_ICONX + INFO_WIDTH, INFO_ICONY, INFO_WIDTH, INFO_HEIGHT, mouseX, mouseY);
         }
     }

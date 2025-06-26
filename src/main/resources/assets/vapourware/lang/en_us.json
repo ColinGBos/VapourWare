@@ -8,6 +8,7 @@
   "vapourware.outputslot": "Output Slot",
   "vapourware.toolslot": "Tool Slot",
   "vapourware.voidfilterslot": "Void-Filter Slot",
+  "vapourware.shift_info": "Hold SHIFT for info",
   "config.jade.plugin_vapourware.fuel": "VapourWare Fuel Jade Plugin",
   "item.vapourware.wrench": "Handyman's Wrench",
   "itemGroup.vapourware": "VapourWare"

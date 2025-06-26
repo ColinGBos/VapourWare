@@ -1,6 +1,7 @@
 package vapourdrive.vapourware.shared.base;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -32,10 +33,14 @@ public class BaseMachineItem extends BaseInfoItemBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(CompUtils.getComp("fuel.info").withStyle(ChatFormatting.GRAY));
         int fuelInt = stack.getOrDefault(Registration.FUEL, 0);
-        String fuel = df.format(fuelInt / 100);
-        tooltipComponents.add(CompUtils.getArgComp("fuel", fuel));
+        if(fuelInt >0) {
+            String fuel = df.format(fuelInt / 100);
+            tooltipComponents.add(CompUtils.getArgComp("fuel", fuel));
+        }
+        if(Screen.hasShiftDown()) {
+            tooltipComponents.add(CompUtils.getComp("fuel.info").withStyle(ChatFormatting.GRAY));
+        }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
