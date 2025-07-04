@@ -2,15 +2,15 @@ package vapourdrive.vapourware.shared.base.itemhandlers;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import vapourdrive.vapourware.shared.base.AbstractBaseFuelUserTile;
 
 import javax.annotation.Nonnull;
 
 public class IngredientHandler extends ItemStackHandler {
-    protected final AbstractBaseFuelUserTile tile;
+    protected final BlockEntity tile;
 
-    public IngredientHandler(AbstractBaseFuelUserTile tile, int size) {
+    public IngredientHandler(BlockEntity tile, int size) {
         this.tile = tile;
         stacks = NonNullList.withSize(size, ItemStack.EMPTY);
     }

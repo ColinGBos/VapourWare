@@ -102,4 +102,14 @@ public class OutputHandler extends ItemStackHandler {
         }
         return true;
     }
+
+    public int getEmptySlots() {
+        int count = 0;
+        for (int i = 0; i < this.getSlots(); i++) {
+            if (this.getStackInSlot(i).isEmpty()){
+                count++;
+            }
+        }
+        return count;
+    }
 }

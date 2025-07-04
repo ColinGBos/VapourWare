@@ -2,11 +2,8 @@ package vapourdrive.vapourware.shared.base;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import vapourdrive.vapourware.shared.utils.MachineUtils;
 
-public interface IFuelUser {
-    void tickServer(BlockState state);
-
+public interface IFuelUser extends ITickingContainer{
     int getMaxFuel();
 
     int getMinFuelToWork();
@@ -38,14 +35,4 @@ public interface IFuelUser {
     ItemStack getCurrentFuelStack();
 
     void setCurrentFuelStack(ItemStack stack);
-
-    void removeFromSlot(MachineUtils.Area area, int index, int amount, boolean simulate);
-
-    ItemStack getStackInSlot(MachineUtils.Area area, int index);
-
-    ItemStack insertToSlot(MachineUtils.Area area, int index, ItemStack stack, boolean simulate);
-
-    int[] getOutputSlots();
-
-
 }

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import vapourdrive.vapourware.config.ConfigSettings;
 import vapourdrive.vapourware.setup.Registration;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -19,8 +20,10 @@ public class VapourWare {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "vapourware";
-    public static final boolean debugMode = true;
+    public static final boolean debugMode = false;
     public static final ArrayList<ItemLike> seeds = new ArrayList<>();
+    public static final DecimalFormat decimalFormat = new DecimalFormat("#,###");
+
 
     public VapourWare(ModContainer container) {
         container.registerConfig(ModConfig.Type.SERVER, ConfigSettings.SERVER_CONFIG);

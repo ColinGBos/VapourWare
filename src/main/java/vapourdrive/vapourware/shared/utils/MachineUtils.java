@@ -9,6 +9,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import vapourdrive.vapourware.VapourWare;
 import vapourdrive.vapourware.shared.base.IFuelUser;
+import vapourdrive.vapourware.shared.base.ITickingContainer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +20,8 @@ public class MachineUtils {
     public enum Area {
         FUEL,
         OUTPUT,
+        AUX_1,
+        AUX_2,
         INGREDIENT_1,
         INGREDIENT_2,
         INGREDIENT_3,
@@ -132,7 +135,7 @@ public class MachineUtils {
         return 0;
     }
 
-    public static boolean canPushAllOutputs(List<ItemStack> stacks, IFuelUser user) {
+    public static boolean canPushAllOutputs(List<ItemStack> stacks, ITickingContainer user) {
         int empties = getEmptyOutputSlotCount(user);
         if (empties >= stacks.size()) {
             return true;
@@ -159,7 +162,7 @@ public class MachineUtils {
         return true;
     }
 
-    public static int pushOutput(ItemStack stack, boolean simulate, IFuelUser user) {
+    public static int pushOutput(ItemStack stack, boolean simulate, ITickingContainer user) {
         int available = 0;
         int empty = 0;
 
@@ -195,7 +198,7 @@ public class MachineUtils {
         return available + empty;
     }
 
-    public static int getEmptyOutputSlotCount(IFuelUser user) {
+    public static int getEmptyOutputSlotCount(ITickingContainer user) {
         int empty = 0;
         for (int i : user.getOutputSlots()) {
             if (user.getStackInSlot(MachineUtils.Area.OUTPUT, i).isEmpty()) {

@@ -1,5 +1,6 @@
 package vapourdrive.vapourware.shared.client;
 
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -14,7 +15,7 @@ import java.util.List;
 public class TooltipEvent {
     @SubscribeEvent
     public static void onToolTipEarly(ItemTooltipEvent event) {
-        if (VapourWare.isDebugMode()) {
+        if (VapourWare.isDebugMode() && Screen.hasShiftDown()) {
             List<Component> tips = event.getToolTip();
             ItemStack stack = event.getItemStack();
             tips.add(Component.literal(Arrays.toString(stack.getTags().toArray())));

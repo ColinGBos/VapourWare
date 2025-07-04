@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.NotNull;
-import vapourdrive.vapourware.VapourWare;
 import vapourdrive.vapourware.setup.Registration;
 
 import java.util.function.ToIntFunction;
@@ -53,16 +52,10 @@ public abstract class AbstractBaseMachineBlock extends AbstractBaseContainerBloc
 //    }
 
 
-    @SuppressWarnings("deprecation")
-    @Override
-    protected ItemStack getProtectedItemStack(@NotNull Level world, @NotNull BlockPos blockPos, BlockState state) {
-        ItemStack stack = getCloneItemStack(world, blockPos, state).copy();
-        BlockEntity blockEntity = world.getBlockEntity(blockPos);
+    protected ItemStack putAdditionalInfo(ItemStack stack, BlockEntity blockEntity) {
         if (blockEntity instanceof IFuelUser machine) {
-            VapourWare.debugLog("within the protected thing");
             stack.set(Registration.FUEL, machine.getCurrentFuel());
         }
-        stack = putAdditionalInfo(stack, blockEntity);
         return stack;
     }
 

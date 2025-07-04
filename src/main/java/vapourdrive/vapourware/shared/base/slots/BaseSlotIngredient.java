@@ -30,9 +30,7 @@ public class BaseSlotIngredient extends AbstractMachineSlot {
         return itemHandler.isItemValid(index, stack);
     }
 
-
     protected boolean isValidIngredient(ItemStack stack) {
         return false;
-//        return this.world.getRecipeManager().getRecipeFor(Registration.FERTILIZER_TYPE.get(), new SimpleContainer(stack), this.world).isPresent();
     }
 }

@@ -5,6 +5,7 @@
   "vapourware.fuel_excess.info": "Will consume fuel that would exceed the fuel storage only when unable to work otherwise (potentially wasteful with high-value modded fuels).",
   "vapourware.fuelslot": "Fuel Slot",
   "vapourware.ingredientslot": "Ingredient Slot",
+  "vapourware.itemslot": "%s Slot",
   "vapourware.outputslot": "Output Slot",
   "vapourware.toolslot": "Tool Slot",
   "vapourware.voidfilterslot": "Void-Filter Slot",

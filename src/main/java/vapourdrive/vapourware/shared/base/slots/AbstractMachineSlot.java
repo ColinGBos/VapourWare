@@ -6,7 +6,6 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
-import vapourdrive.vapourware.VapourWare;
 import vapourdrive.vapourware.shared.utils.DeferredComponent;
 
 public class AbstractMachineSlot extends SlotItemHandler {
@@ -25,6 +24,5 @@ public class AbstractMachineSlot extends SlotItemHandler {
     public void set(@NotNull ItemStack stack) {
         ((IItemHandlerModifiable)this.getItemHandler()).setStackInSlot(this.index, stack);
         this.setChanged();
-        VapourWare.debugLog("slot index: "+this.index);
     }
 }

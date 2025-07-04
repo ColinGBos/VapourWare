@@ -3,9 +3,7 @@ package vapourdrive.vapourware.shared.base;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -34,6 +32,31 @@ public abstract class AbstractBaseContainerMenu extends AbstractContainerMenu {
         tileEntity = world.getBlockEntity(pos);
     }
 
+    protected void addSplitDataSlots(final ContainerData data) {
+        for(int i = 0; i < data.getCount(); ++i) {
+            final int index = i;
+            this.addDataSlot(new DataSlot() {
+                public int get() {
+                    return data.get(index) & '\uffff';
+                }
+
+                public void set(int value) {
+                    int stored = data.get(index) & -65536;
+                    data.set(index, stored + (value & '\uffff'));
+                }
+            });
+            this.addDataSlot(new DataSlot() {
+                public int get() {
+                    return data.get(index) >> 16 & '\uffff';
+                }
+
+                public void set(int value) {
+                    int stored = data.get(index) & '\uffff';
+                    data.set(index, stored | value << 16);
+                }
+            });
+        }
+    }
 
     @Override
     public boolean stillValid(@NotNull Player playerIn) {
