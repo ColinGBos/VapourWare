@@ -20,7 +20,7 @@ import java.util.List;
 
 public class AbstractBaseMachineScreen<T extends AbstractBaseMachineContainer> extends AbstractContainerScreen<T> {
     protected final AbstractBaseMachineContainer container;
-    private final ResourceLocation GUI;
+    protected final ResourceLocation GUI;
     protected int FUEL_XPOS = 12;
     protected int FUEL_YPOS = 8;
     protected int FUEL_ICONX = 176;   // texture position of flame icon [u,v]
